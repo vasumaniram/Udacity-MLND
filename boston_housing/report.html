@@ -12082,13 +12082,13 @@ Standard deviation of prices: $165,171.13
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Import &#39;train_test_split&#39;</span>
 <span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 <span class="c1"># TODO: Shuffle and split the data into training and testing subsets</span>
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">features</span><span class="p">,</span><span class="n">prices</span><span class="p">,</span><span class="n">train_size</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span><span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span><span class="n">random_state</span><span class="o">=</span><span class="mi">23</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">features</span><span class="p">,</span><span class="n">prices</span><span class="p">,</span><span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span><span class="n">random_state</span><span class="o">=</span><span class="mi">23</span><span class="p">)</span>
 
 <span class="c1"># Success</span>
 <span class="k">print</span> <span class="s2">&quot;Training and testing split was successful.&quot;</span>
@@ -13248,9 +13248,9 @@ IMebOgQVXf4AAAAASUVORK5CYII=
 <p><strong>Answer: </strong></p>
 <p><strong> Graph Choosen : </strong> Right Top Most Graph</p>
 <p><strong> Max-Depth : </strong> 3</p>
-<p><strong> Training Curve : </strong> The training curve score comes down a bit while adding more number of training data points are added.</p>
-<p><strong> Testing Curve : </strong> The testing curve score goes up while adding more number of training data points are added.</p>
-<p>Both training and testing curves converge into score(around .8) while adding more number of training data points. Adding more training data points may help the model to generalize as the training score is more than the testing score with more number of training points. Also the gap between the training and testing curve while adding more data points is less which shows the model is not suffering from <strong>overfitting</strong>.</p>
+<p><strong> Training Curve : </strong> Overall,the training curve score comes down a bit while more number of training data points are added and converge into score(around 0.8) abd there is not much drop in the score after 200 data points.</p>
+<p><strong> Testing Curve : </strong> Overall, the testing curve score goes up while more number of training data points are added and converge into score(around 0.8). There is a spike in the score when the data points reach 50 and it slowly increases till 200 data points.After 200,there is no significant improvement in the score.Hence we can conclude that adding more data is beneficial till 200 data points and making no significant improvement after that.</p>
+<p>Both training and testing curves converge into score(around .8) while data points reached 200. Adding more data points did not make any significant help to make the model to genaralize further.Also the gap between the training and testing curve while adding 200 data points is less(and continue to be less further too,but not a noteable difference) while shows the model is not suffering from <strong>overfitting</strong>.Based on this analysis,the model generalizes well only till 200 data points are added.Hence adding more data points after 200,is not helpful and not required.</p>
 
 </div>
 </div>
@@ -13823,8 +13823,41 @@ KzYtkTHGJxEpUdXIQMdhTGOzFp8xxh/7VGx+lKzFZ4wxJqRYi88YY0xIscRnjDEmpFjiM8YYE1Is
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer: </strong> K-Fold cross-validation training technique splits the training set into 'K' number of subsets and trains the model with (k-1) subsets and tests the model with the remaining 'K'th subset. Hence the performance of the model trained is tested with the unseen data within the training set itself. Also the K-Fold cross-validation trains and test the model 'K' times with every time one subset is kept for testing the model and the rest of the subsets used for training.The overall performance of the model is a average performance of all the 'K' executions.
-            When GridSearch is used in combination with K-Fold cross-validation technique, the GridSearch parameter space(all the combinations of the given parameters) is tried with every iteration of K-Fold cross-validation and the best params for the optimized model returned by the GridSearch. Python's SKLearn has <a href="http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html#sklearn.model_selection.GridSearchCV">GridSearchCV</a> which helps to do GridSearch with K-Fold cross-validation.</p>
+<p><strong>Answer: </strong> K-Fold cross-validation training technique splits the training set into 'K' number of subsets and trains the model with (k-1) subsets and tests the model with the remaining 'K'th subset. Hence the performance of the model trained is tested with the unseen data within the training set itself. Also the K-Fold cross-validation trains and test the model 'K' times with every time one subset is kept for testing the model and the rest of the subsets used for training.The overall performance of the model is a average performance of all the 'K' executions. The following table summarizes some of the properties of Holdout and K-Fold methods,</p>
+<table>
+<thead><tr>
+<th style="text-align:center">S.No</th>
+<th style="text-align:center">Holdout</th>
+<th style="text-align:center">K-Fold</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1.</td>
+<td style="text-align:center">Training and Test split happens once and the model is trained once and tested once.Hence computationally less intensive compares to K-Fold.</td>
+<td style="text-align:center">Training and Test split happens 'K' times.Hence its computationally intensive.</td>
+</tr>
+<tr>
+<td style="text-align:center">2.</td>
+<td style="text-align:center">Good for huge dataset considering the computational power</td>
+<td style="text-align:center">Good for small dataset considering the computational power</td>
+</tr>
+<tr>
+<td style="text-align:center">3.</td>
+<td style="text-align:center">Will take less time for execution</td>
+<td style="text-align:center">Will take more time for execution as it has to repeat the process 'K' times.</td>
+</tr>
+<tr>
+<td style="text-align:center">4.</td>
+<td style="text-align:center">Error calculated once.Hence,how the dataset is split largely contributes to the error variance</td>
+<td style="text-align:center">Average error across 'K' iterations taken.</td>
+</tr>
+</tbody>
+</table>
+
+<pre><code>        Given the dataset is computationally less intensive with mutiple iterations,K-Fold is the best CV method for the model to generalize well.
+
+        When GridSearch is used in combination with K-Fold cross-validation technique, the GridSearch parameter space(all the combinations of the given parameters) is tried with every iteration of K-Fold cross-validation and the best params for the optimized model returned by the GridSearch. Python's SKLearn has [GridSearchCV](http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html#sklearn.model_selection.GridSearchCV) which helps to do GridSearch with K-Fold cross-validation.  </code></pre>
 
 </div>
 </div>
@@ -13859,7 +13892,7 @@ KzYtkTHGJxEpUdXIQMdhTGOzFp8xxh/7VGx+lKzFZ4wxJqRYi88YY0xIscRnjDEmpFjiM8YYE1Is
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Import &#39;make_scorer&#39;, &#39;DecisionTreeRegressor&#39;, and &#39;GridSearchCV&#39;</span>
@@ -13874,7 +13907,7 @@ KzYtkTHGJxEpUdXIQMdhTGOzFp8xxh/7VGx+lKzFZ4wxJqRYi88YY0xIscRnjDEmpFjiM8YYE1Is
     <span class="n">cv_sets</span> <span class="o">=</span> <span class="n">ShuffleSplit</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">n_iter</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">test_size</span> <span class="o">=</span> <span class="mf">0.20</span><span class="p">,</span> <span class="n">random_state</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
 
     <span class="c1"># TODO: Create a decision tree regressor object</span>
-    <span class="n">regressor</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">()</span>
+    <span class="n">regressor</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">23</span><span class="p">)</span>
 
     <span class="c1"># TODO: Create a dictionary for the parameter &#39;max_depth&#39; with a range from 1 to 10</span>
     <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;max_depth&#39;</span> <span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">))}</span>
@@ -14188,6 +14221,8 @@ Range in prices: $69,044.61
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong></p>
+<p><strong> Sensitivity </strong> When trained with differnt training and testing sets,the model's prediction is not con
+sitent and it varies between 351K to 420K and the variance of the range is 69k which is huge which makes the model less robust to use.</p>
 <p><strong>Relevance:</strong> Even the price is multiplicatively scaled to match the 35 years of inflation,the data collected in 1978 would not suffice and the following are some of the points to prove this.</p>
 <ol>
 <li><p>RM(No Of Rooms) - Data produced from the type of houses constructed till 1978 and now there could have been modern construction like multi-story apartments which has to be valued in a different way.</p>
